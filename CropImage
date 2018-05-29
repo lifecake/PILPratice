@@ -1,0 +1,34 @@
+from PIL import Image
+
+
+im = Image.open('/Path/to/image/xxx.jpg')
+
+w, h = im.size
+print(w, h)
+
+
+def vertical():
+    n = 1
+    for x in range(0, 3):
+        for y in range(0, 3):
+            box = (x/3 * w, y/3 * h, (x+1)/3 * w, (y+1)/3 * h)
+            region = im.crop(box)
+            region.save(str(n) + '.jpg')
+            # region.show()
+            n = n + 1
+
+
+def horizontal():
+    n = 11
+    for x in range(0, 3):
+        for y in range(0, 3):
+            box = (y/3 * w, x/3 * h, (y+1)/3 * h, (x+1)/3 * w)
+            region = im.crop(box)
+            region.save(str(n) + '.jpg')
+            # region.show()
+            n = n + 1
+
+
+if __name__ == '__main__':
+    horizontal()
+    vertical()
