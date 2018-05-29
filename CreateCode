@@ -1,0 +1,58 @@
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+import random
+
+
+# Get Random letters
+def letters():
+    return chr(random.randint(65, 90))
+
+
+# Get Random Background Color
+def backgroundColor():
+    return random.randint(0, 125)
+
+
+# Get Random letter Color
+def fontColor():
+    return random.randint(125, 255)
+
+
+# Create Code
+def createCode(width, height):
+    global code
+    code = []
+    image = Image.new('RGB', (width, height), (255, 255, 255))
+
+    font = ImageFont.truetype('Arial.ttf', 40)
+
+    draw = ImageDraw.Draw(image)
+
+    for x in range(width):
+        for y in range(height):
+            draw.point((x, y), fill=backgroundColor())
+
+    for t in range(5):
+        letter = letters()
+        draw.text((60 * t + 10, 10), letter, font=font, fill=fontColor())
+        code.append(letter)
+
+    image = image.filter(ImageFilter.GaussianBlur)
+    image.save('code.jpg')
+    image.show()
+    print(code)
+    return code
+
+
+def checkCode():
+    inputcode = input('Please enter code: ')
+    realcode = ''.join(code)
+    if inputcode.upper() == realcode:
+        print('Right')
+    else:
+        print('Wrong Code')
+        print(inputcode, realcode)
+
+
+if __name__ == '__main__':
+    createCode(300, 60)
+    checkCode()
